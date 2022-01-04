@@ -1,4 +1,5 @@
 ---
+subcategory: "OSS"
 layout: "alicloud"
 page_title: "Alicloud: alicloud_oss_buckets"
 sidebar_current: "docs-alicloud-datasource-oss-buckets"
@@ -33,6 +34,7 @@ The following arguments are supported:
 
 The following attributes are exported in addition to the arguments listed above:
 
+* `names` - A list of bucket names. 
 * `buckets` - A list of buckets. Each element contains the following attributes:
   * `name` - Bucket name.
   * `acl` - Bucket access control list. Possible values: `private`, `public-read` and `public-read-write`.
@@ -41,7 +43,10 @@ The following attributes are exported in addition to the arguments listed above:
   * `location` - Region of the data center where the bucket is located.
   * `owner` - Bucket owner.
   * `storage_class` - Object storage type. Possible values: `Standard`, `IA` and `Archive`.
+  * `redundancy_type` - Redundancy type. Possible values: `LRS`, and `ZRS`.
   * `creation_date` - Bucket creation date.
+  * `cross_region_replication` - Bucket replication type. Possible values: `Enabled`, and `Disabled`.
+  * `transfer_acceleration` - Bucket replication accelerator. Possible values: `Enabled`, and `Disabled`.
   * `cors_rules` - A list of CORS rule configurations. Each element contains the following attributes:
     * `allowed_origins` - The origins allowed for cross-domain requests. Multiple elements can be used to specify multiple allowed origins. Each rule allows up to one wildcard "\*". If "\*" is specified, cross-domain requests of all origins are allowed.
     * `allowed_methods` - Specify the allowed methods for cross-domain requests. Possible values: `GET`, `PUT`, `DELETE`, `POST` and `HEAD`.
@@ -64,3 +69,18 @@ The following attributes are exported in addition to the arguments listed above:
     * `expiration` - A list of one element containing expiration attributes of an object. It contains the following attributes:
       * `date` - Date after which the rule to take effect. The format is like 2017-03-09.
       * `days` - Indicate the number of days after the last object update until the rules take effect.
+  * `server_side_encryption_rule` - A configuration of default encryption for a bucket. It contains the following attributes:
+    * `sse_algorithm` - The server-side encryption algorithm to use.
+    * `kms_master_key_id` -  The alibaba cloud KMS master key ID used for the SSE-KMS encryption. 
+  * `tags` - A mapping of tags.
+  * `versioning` - If present , the versioning state has been set on the bucket. It contains the following attribute.
+      * `status` - A bucket versioning state. Possible values:`Enabled` and `Suspended`.
+  * `replictation_rule` - A configuration of replication for a bucket. It contains the following attributes:
+    * `id` - (Computed, Type: string) Unique identifier for the rule. OSS bucket will assign a unique name.
+    * `status` - (Computed, Type: string) Specifies replication rule status. Possible values:`starting`, `doing` and `closing`.
+    * `action` - Defined which operation of objects in bucket will be sync. Possible values:`ALL`, `DELETE`, `PUT` or any combination of them.
+    * `destination` - Defined the target bucket of replication
+      * `bucket` - Target bucket
+      * `location` - The location of target bucket
+      * `transfer_type` - The transfer type of replication. Possible values:`internal` and `oss_acc`.
+    * `historical_object_replication` - Defined whether the objects already exits will be sync. Possible values:`enabled` and `disabled`.
